@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "description": "",
+  "engines": {
+    "node": "18.x" 
+  },
   "dependencies": {
     "@paypal/checkout-server-sdk": "^1.0.3",
     "bcrypt": "^5.1.1",
