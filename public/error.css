@@ -1,0 +1,134 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background: #000;
+}
+
+.container {
+    position: relative;
+    height: 100vh;
+    background: linear-gradient(45deg, 
+        #ff0000, #00ff00, #0000ff, 
+        #ff00ff, #ffff00, #00ffff);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+}
+
+.shape {
+    position: absolute;
+    opacity: 0.7;
+    mix-blend-mode: screen;
+    animation: float 10s infinite ease-in-out;
+}
+
+.text-effect {
+    font-family: Arial;
+    font-size: 4em;
+    font-weight: bold;
+    text-align: center;
+    animation: rainbow 2s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20vh) rotate(180deg); }
+}
+
+@keyframes rainbow {
+    100% { filter: hue-rotate(360deg); }
+}
+
+ /* Estilos previos... */
+ .mouse-trail {
+    position: fixed;
+    pointer-events: none;
+    width: 10px;
+    height: 10px;
+    background: white;
+    mix-blend-mode: difference;
+    border-radius: 50%;
+    transition: 0.1s;
+}
+
+.ripple {
+    position: absolute;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 50%;
+    animation: ripple 1.5s ease-out;
+}
+
+@keyframes ripple {
+    from { transform: scale(0); opacity: 1; }
+    to { transform: scale(10); opacity: 0; }
+}
+
+.particle {
+    position: absolute;
+    pointer-events: none;
+    background: white;
+    mix-blend-mode: difference;
+    border-radius: 50%;
+}
+
+/* Estilos anteriores... */
+
+.windows98-popup {
+    position: fixed;
+    width: 300px;
+    background: #c0c0c0;
+    border: 2px solid #000;
+    font-family: 'MS Sans Serif', sans-serif;
+    cursor: move;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.3);
+}
+
+.title-bar {
+    background: #000080;
+    color: white;
+    padding: 3px;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.window-content {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.warning-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 15px;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgSURBVHgB7cxBEQAACAIwqX9qN8EPHZAAmSoYzwIAAPgCLbwAAW6WQOEAAAAASUVORK5CYII=') no-repeat;
+}
+
+.crt-effect {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: linear-gradient(rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.2) 50%);
+    background-size: 100% 4px;
+    z-index: 9999;
+    animation: scanline 2s linear infinite;
+}
+
+@keyframes scanline {
+    from { background-position: 0 0; }
+    to { background-position: 0 100%; }
+}

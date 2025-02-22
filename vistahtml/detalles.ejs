@@ -1,0 +1,23 @@
+<%- include ('./parciales/head.ejs') %>
+<body>
+  <%- include ('./parciales/navegar.ejs') %>
+  <div class="content">
+    <h2><%= user.title %></h2>
+    <img src="<%= user.imagePath %>" alt="imagen del blog" class="blog--image">
+    <br>
+    <p> Nombre: <%= user.firstName %></p>
+    <p> Apellido: <%= user.lastName %></p>
+    <p> Edad: <%= user.age %></p>
+    <p> Nacionalidad: <%= user.nationality %></p>
+    <p> Genero: <%= user.gender %></p>
+    <p> Fecha de Nacimiento: <%= user.dateOfBirth %></p>
+    <p> Direccion de imagen: <%= user.imagePath %></p>
+    <br>
+    <a href="/users/<%= user._id %>/editar" class="editar">Editar</a>
+    
+    <form action="/users/<%= user._id %>?_method=DELETE" method="POST" style="display:inline;">
+      <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este blog?')" class="eliminar">Eliminar</button>
+    </form>
+  </div>
+  <%- include ('./parciales/footer.ejs') %>
+</body>

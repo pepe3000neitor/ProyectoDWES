@@ -1,0 +1,28 @@
+<html lang="es">
+  <%- include ('./parciales/head.ejs') %>
+  <body>
+    <%- include ('./parciales/navegar.ejs') %>
+    <div class="login-form">
+        <h1>Iniciar sesion:</h1>
+        <% if (message.error) { %>
+            <p style="color: red"><%= message.error[0] %></p>
+        <% } %>
+
+        <form action="/login" method="post">
+            <label for="username">Usuario:</label>
+            <input type="text" name="username" id="username" required>
+            <label for="password">Contraseña:</label>
+            <input type="text" name="password" id="password" required>
+            <button type="submit">Iniciar sesion</button>
+        </form>
+        <p style="text-align: center;margin-top: 10px;">¿no tienes cuenta?</p>
+        <a href="/sing-up" class="create-account-button">Crear cuenta</a>
+
+    </div>
+
+
+
+
+    <%- include ('./parciales/footer.ejs') %>
+  </body>
+</html>

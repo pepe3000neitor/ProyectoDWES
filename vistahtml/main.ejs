@@ -1,0 +1,24 @@
+<html lang="es">
+  <%- include ('./parciales/head.ejs') %>
+  <body>
+    <%- include ('./parciales/navegar.ejs') %>
+    <div class="blogs-content">
+      <h2>Todos los usuarios</h2>
+      <% if (user.length > 0) { %>
+        <div class="user-grid"> <!-- Contenedor de la cuadrícula -->
+          <% user.forEach(user => { %>
+            <a class="single" href="/users/<%= user._id %>">
+              <% if (user.imagePath) { %>
+                <img src="<%= user.imagePath %>" alt="imagen del usuario" class="blog-image">
+              <% } %>
+              <h3 class="title"> <%= user.firstName %> </h3>
+            </a>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <p>No hay usuarios que mostrar</p>
+      <% } %>
+    </div>
+    <%- include ('./parciales/footer.ejs') %>
+  </body>
+</html>

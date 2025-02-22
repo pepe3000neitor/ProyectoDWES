@@ -1,0 +1,76 @@
+  <%- include ('./parciales/head.ejs') %>
+  <body>
+    <%- include ('./parciales/navegar.ejs') %>
+    <div class="content">
+      <h1>Editar Usuario</h1>
+      <form action="/usuarios/<%= usuario._id %>" method="POST" enctype="multipart/form-data">
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" name="username" value="<%= usuario.username %>" required><br><br>
+
+        <label for="password">Contraseña:</label>
+        <div class="password-container">
+              <input type="password" id="password" name="password" required>
+              <span id="toggle-password" class="eye-icon">&#128065;</span>
+        </div>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="<%= usuario.email %>" required><br><br>
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" value="<%= usuario.nombre %>" required><br><br>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" value="<%= usuario.apellido %>" required><br><br>
+
+        <label for="sexo">Sexo:</label>
+        <select name="sexo" id="sexo" required>
+          <option value="male" <%= usuario.sexo === 'male' ? 'selected' : '' %>>Masculino</option>
+          <option value="female" <%= usuario.sexo === 'female' ? 'selected' : '' %>>Femenino</option>
+        </select><br><br>
+
+        <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+        <input type="date" id="fechaNacimiento" name="fechaNacimiento" value="<%= usuario.fechaNacimiento.toISOString().split('T')[0] %>" required><br><br>
+
+        <label for="foto">Foto (actual:)</label>
+        <% if (usuario.foto) { %>
+        <img src="<%= usuario.foto %>" alt="Foto actual del usuario" class="user-photo-edit">
+        <% } else { %>
+        <p>No se ha subido ninguna foto.</p>
+        <% } %>
+        <input type="file" id="foto" name="foto"><br><br>
+
+        <div class="button-row">
+          <button type="submit" class="button">Guardar Cambios</button>
+          <a href="/basededatos" class="button">Cancelar</a>
+        </div><br><br>
+      </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+          $(document).ready(function() {
+            var today = new Date().toISOString().split('T')[0];
+            $('#fechaNacimiento').val(today);
+
+            // Funcionalidad para alternar visibilidad de la contraseña
+            $('#toggle-password').click(function() {
+              var passwordField = $('#password');
+              var type = passwordField.attr('type') === 'password' ? 'text' : 'password';
+              passwordField.attr('type', type);
+              
+              // Cambiar el ícono de ojo según la visibilidad de la contraseña
+              if (type === 'password') {
+                $(this).html('&#128065;');  // Ojo cerrado
+              } else {
+                $(this).html('&#128064;');  // Ojo abierto
+              }
+            });
+
+            $('#submit').click(function() {
+              $('form').submit();
+            });
+          });
+        </script>
+
+    <%- include ('./parciales/footer.ejs') %>
+  </body>

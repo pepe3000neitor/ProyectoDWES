@@ -1,0 +1,74 @@
+  <html lang="es">
+    <%- include ('./parciales/head.ejs') %>
+    <body>
+      <%- include ('./parciales/navegar.ejs') %>
+
+      <div class="sign-up-form">
+
+        <h1>Registrate:</h1>
+        <form action="/sing-up" method="post">
+          <label for="username">Usuario:</label>
+          <input type="text" id="username" name="username" required>
+          
+          <label for="password">Contraseña:</label>
+          <div class="password-container">
+            <input type="password" id="password" name="password" required>
+            <span id="toggle-password" class="eye-icon">&#128065;</span>
+          </div>
+
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" name="nombre" required>
+
+          <label for="apellido">Apellido:</label>
+          <input type="text" id="apellido" name="apellido" required>
+
+          <label for="sexo">Sexo:</label>
+          <select name="sexo">
+            <option value="male">Masculino</option>
+            <option value="female">Femenino</option>
+          </select>
+
+          <label for="fechaNacimiento">Fecha de nacimiento:</label>
+          <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+
+          <label for="foto">Foto:</label>
+          <input type="file" id="foto" name="foto">
+
+          <button type="submit" id="submit">Registrarse</button>
+
+        </form>
+
+      </div>
+
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+        $(document).ready(function() {
+          var today = new Date().toISOString().split('T')[0];
+          $('#fechaNacimiento').val(today);
+
+          // Funcionalidad para alternar visibilidad de la contraseña
+          $('#toggle-password').click(function() {
+            var passwordField = $('#password');
+            var type = passwordField.attr('type') === 'password' ? 'text' : 'password';
+            passwordField.attr('type', type);
+            
+            // Cambiar el ícono de ojo según la visibilidad de la contraseña
+            if (type === 'password') {
+              $(this).html('&#128065;');  // Ojo cerrado
+            } else {
+              $(this).html('&#128064;');  // Ojo abierto
+            }
+          });
+
+          $('#submit').click(function() {
+            $('form').submit();
+          });
+        });
+      </script>
+
+      <%- include ('./parciales/footer.ejs') %>
+    </body>
+  </html>

@@ -1,0 +1,56 @@
+<html lang="es">
+  <%- include ('./parciales/head.ejs') %>
+  <body>
+    <%- include ('./parciales/navegar.ejs') %>
+
+    <div class="basededatos-header">
+        <h1>Base de Datos de Usuario</h1>
+    </div>
+
+    <table class="basededatos-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Contraseña</th>
+                <th>Email</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Sexo</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Foto</th>
+                <th>Fecha de creación</th>
+                <th>Eliminar/Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% usuario.forEach(usuario => { %>
+              <tr>
+                <td><%= usuario._id %></td>
+                <td><%= usuario.username %></td>
+                <td><%= usuario.password %></td>
+                <td><%= usuario.email %></td>
+                <td><%= usuario.nombre %></td>
+                <td><%= usuario.apellido %></td>
+                <td><%= usuario.sexo %></td>
+                <td><%= usuario.fechaNacimiento ? new Date(usuario.fechaNacimiento).toLocaleDateString('es-ES') : 'Fecha no disponible' %></td>
+                <td><%= usuario.foto %></td>
+                <td><%= usuario.createdAt ? usuario.createdAt.toLocaleDateString('es-ES') : 'No disponible' %></td>
+                <td>
+                  <p>
+                    <a href="/usuarios/<%= usuario._id %>/editarBaseDeDatos" class="editar">Editar</a> /
+                    <a href="/eliminar/<%= usuario._id %>" class="eliminar" onclick="return confirm('¿Estás seguro de eliminar tu cuenta?')">Eliminar</a>
+                  </p>
+                </td>
+              </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <div class="basededatos-logout">
+        <a href="/logout">Cerrar sesión</a>
+    </div>
+
+    <%- include ('./parciales/footer.ejs') %>
+  </body>
+</html>

@@ -1,0 +1,268 @@
+<%- include ('./parciales/headError.ejs') %>
+<body>
+    <div class="container">
+        <div class="text-effect">∞ ERROR 404 ∞</div>
+    </div>
+
+    <script>
+        // Generar formas geométricas aleatorias
+        function createShapes() {
+            const container = document.querySelector('.container');
+            const shapes = ['circle', 'triangle', 'square'];
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff'];
+            
+            for(let i = 0; i < 50; i++) {
+                const shape = document.createElement('div');
+                shape.className = 'shape';
+                
+                // Propiedades aleatorias
+                const size = Math.random() * 150 + 50;
+                const left = Math.random() * 100;
+                const delay = Math.random() * 10;
+                const duration = Math.random() * 5 + 5;
+                const shapeType = shapes[Math.floor(Math.random() * shapes.length)];
+                
+                // Estilos dinámicos
+                shape.style.width = `${size}px`;
+                shape.style.height = `${size}px`;
+                shape.style.left = `${left}%`;
+                shape.style.animationDelay = `${delay}s`;
+                shape.style.animationDuration = `${duration}s`;
+                shape.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Crear formas SVG
+                shape.innerHTML = `
+                    <svg viewBox="0 0 100 100">
+                        ${shapeType === 'circle' 
+                            ? '<circle cx="50" cy="50" r="45"/>' 
+                            : shapeType === 'triangle' 
+                            ? '<polygon points="50 5, 95 95, 5 95"/>'
+                            : '<rect x="5" y="5" width="90" height="90"/>'}
+                    </svg>`;
+                
+                container.appendChild(shape);
+            }
+        }
+
+        // Efecto de movimiento con el mouse
+        document.addEventListener('mousemove', (e) => {
+            const shapes = document.querySelectorAll('.shape');
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            shapes.forEach(shape => {
+                const rect = shape.getBoundingClientRect();
+                const shapeX = rect.left + rect.width/2;
+                const shapeY = rect.top + rect.height/2;
+                
+                const angle = Math.atan2(mouseY - shapeY, mouseX - shapeX);
+                const distance = Math.sqrt(
+                    Math.pow(mouseX - shapeX, 2) + 
+                    Math.pow(mouseY - shapeY, 2)
+                );
+                
+                shape.style.transform = `translate(
+                    ${Math.cos(angle) * distance/50}px, 
+                    ${Math.sin(angle) * distance/50}px
+                )`;
+            });
+        });
+
+        // Efectos anteriores...
+
+        // Nuevos efectos interactivos:
+        // 1. Partículas que siguen el mouse
+        let particles = [];
+        const particleCount = 30;
+        
+        for(let i = 0; i < particleCount; i++) {
+            let particle = document.createElement('div');
+            particle.className = 'particle';
+            document.body.appendChild(particle);
+            particles.push({
+                element: particle,
+                x: 0,
+                y: 0,
+                delay: i * 0.1
+            });
+        }
+
+        // 2. Ripple effect al hacer click
+        document.addEventListener('click', (e) => {
+            let ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 1500);
+        });
+
+        // 3. Trail de partículas
+        document.addEventListener('mousemove', (e) => {
+            // Efecto de estela
+            let trail = document.createElement('div');
+            trail.className = 'mouse-trail';
+            trail.style.left = e.clientX + 'px';
+            trail.style.top = e.clientY + 'px';
+            document.body.appendChild(trail);
+            
+            setTimeout(() => trail.remove(), 100);
+
+            // Actualizar partículas
+            particles.forEach((particle, index) => {
+                setTimeout(() => {
+                    particle.x = e.clientX + (Math.random() - 0.5) * 50;
+                    particle.y = e.clientY + (Math.random() - 0.5) * 50;
+                    particle.element.style.left = particle.x + 'px';
+                    particle.element.style.top = particle.y + 'px';
+                    particle.element.style.background = `hsl(${Date.now()/10 % 360},100%,50%)`;
+                    particle.element.style.width = `${Math.random() * 15 + 5}px`;
+                    particle.element.style.height = particle.element.style.width;
+                }, particle.delay * 100);
+            });
+        });
+
+        // 4. Cambio de color según posición del mouse
+        document.addEventListener('mousemove', (e) => {
+            const hue = (e.clientX / window.innerWidth) * 360;
+            const saturation = (e.clientY / window.innerHeight) * 100;
+            document.body.style.backgroundColor = `hsl(${hue},${saturation}%,10%)`;
+        });
+
+        // 5. Efecto de distorsión
+        let lastX = 0, lastY = 0;
+        document.addEventListener('mousemove', (e) => {
+            const deltaX = e.clientX - lastX;
+            const deltaY = e.clientY - lastY;
+            const speed = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+            
+            document.querySelectorAll('.shape').forEach(shape => {
+                shape.style.transform = `
+                    rotate(${deltaX * 0.5}deg)
+                    scale(${1 + speed/100})
+                `;
+            });
+            
+            lastX = e.clientX;
+            lastY = e.clientY;
+        });
+
+        // 6. Interacción con texto
+        const text = document.querySelector('.text-effect');
+        document.addEventListener('mousemove', (e) => {
+            const rect = text.getBoundingClientRect();
+            const distanceX = Math.abs(e.clientX - (rect.left + rect.width/2));
+            const distanceY = Math.abs(e.clientY - (rect.top + rect.height/2));
+            
+            text.style.transform = `
+                translate(-50%, -50%)
+                scale(${1 + (distanceX + distanceY)/1000})
+                rotate(${(distanceX - distanceY) * 0.1}deg)
+            `;
+            text.style.textShadow = `
+                ${-distanceX/10}px ${-distanceY/10}px 0 rgba(255,0,0,0.5),
+                ${distanceX/10}px ${distanceY/10}px 0 rgba(0,255,0,0.5),
+                ${-distanceY/10}px ${distanceX/10}px 0 rgba(0,0,255,0.5)
+            `;
+        });
+
+        // Función para crear ventana de error
+        function createErrorWindow() {
+            const win = document.createElement('div');
+            win.className = 'windows98-popup';
+            
+            win.innerHTML = `
+                <div class="title-bar">
+                    <span>⚠️ Error del Sistema</span>
+                    <div style="font-family: Webdings;">0</div>
+                </div>
+                <div class="window-content">
+                    <div class="warning-icon"></div>
+                    <div>
+                        <p>¡Error crítico 0x1A3F59!</p>
+                        <p>Se ha producido una violación de segmento en:</p>
+                        <p>PSYCHEDELIC.EXE</p>
+                        <button style="margin-top: 10px;" onclick="this.parentElement.parentElement.parentElement.remove()">Aceptar</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(win);
+            return win;
+        }
+
+        // Animación de rebote
+        function startBouncing(windowElement) {
+            let posX = Math.random() * (window.innerWidth - 300);
+            let posY = Math.random() * (window.innerHeight - 150);
+            let velX = (Math.random() - 0.5) * 8;
+            let velY = (Math.random() - 0.5) * 8;
+            let dragging = false;
+            let dragOffset = {x: 0, y: 0};
+
+            // Eventos de arrastre
+            windowElement.addEventListener('mousedown', (e) => {
+                dragging = true;
+                dragOffset.x = e.clientX - posX;
+                dragOffset.y = e.clientY - posY;
+            });
+
+            document.addEventListener('mouseup', () => dragging = false);
+            
+            document.addEventListener('mousemove', (e) => {
+                if (dragging) {
+                    posX = e.clientX - dragOffset.x;
+                    posY = e.clientY - dragOffset.y;
+                }
+            });
+
+            // Animación
+            function update() {
+                if (!dragging) {
+                    posX += velX;
+                    posY += velY;
+
+                    // Rebote en bordes
+                    if (posX < 0 || posX > window.innerWidth - 300) {
+                        velX *= -1;
+                        posX = Math.max(0, Math.min(posX, window.innerWidth - 300));
+                    }
+                    
+                    if (posY < 0 || posY > window.innerHeight - 150) {
+                        velY *= -1;
+                        posY = Math.max(0, Math.min(posY, window.innerHeight - 150));
+                    }
+                }
+
+                windowElement.style.left = posX + 'px';
+                windowElement.style.top = posY + 'px';
+                
+                // Efecto de inclinación al mover
+                windowElement.style.transform = `
+                    rotate(${velX * 0.3}deg)
+                    scale(${1 + Math.abs(velY)/50})
+                `;
+                
+                requestAnimationFrame(update);
+            }
+            
+            update();
+        }
+
+        // Crear múltiples ventanas
+        for (let i = 0; i < 3; i++) {
+            setTimeout(() => {
+                const win = createErrorWindow();
+                startBouncing(win);
+            }, i * 1000);
+        }
+
+        // Efecto de curvatura CRT
+        document.body.style.transform = 'perspective(1000px) rotateX(3deg)';
+
+        // Inicializar
+        createShapes();
+    </script>
+</body>
+</html>

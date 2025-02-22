@@ -1,0 +1,67 @@
+<html lang="es">
+  <%- include ('./parciales/head.ejs') %>
+  <body>
+    <%- include ('./parciales/navegar.ejs') %>
+    <div class="create-blog">
+      <h1 class="h1crearUsuario"> Crear tu Usuario:</h1>
+        <form action="/crearUsuario" method="post" enctype="multipart/form-data">
+        <label>Nombre:</label>
+        <input type="text" name="firstName" required>
+        
+        <label>Apellido:</label>
+        <input type="text" name="lastName" required>
+        
+        <label>Edad:</label>
+        <input type="number" name="age" min="0" required class="no-arrows">
+        
+        <label>Nacionalidad:</label>
+        <input type="text" name="nationality" required>
+        
+        <label>Género:</label>
+        <select name="gender">
+          <option value="Male">Masculino</option>
+          <option value="Female">Femenino</option>
+          <option value="Other">Otro</option>
+        </select>
+        
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email">
+        
+        <label for="image">Imagen:</label>
+        <input type="file" id="image" name="image">
+        
+        <label for="dateOfBirth">Fecha de Nacimiento:</label>
+        <input type="date" name="dateOfBirth" id="dateOfBirth" required>
+        
+        <button type="submit" id="submitButton">Crear Usuario</button>
+      </form>
+    </div>
+
+    <%- include ('./parciales/footer.ejs') %>   
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        var today = new Date().toISOString().split('T')[0];
+        $('#dateOfBirth').val(today);
+
+        $('#submitButton').click(function() {
+          $('form').submit(); 
+        });
+      });
+    </script>
+    <style>
+      /* Ocultar las flechas del campo de número */
+      input[type=number]::-webkit-outer-spin-button,
+      input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      input[type=number] {
+        appearance: textfield;
+        -moz-appearance: textfield;
+      }
+    </style>
+  </body>
+</html>

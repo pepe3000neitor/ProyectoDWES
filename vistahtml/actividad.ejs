@@ -1,0 +1,30 @@
+<%- include ('./parciales/head.ejs') %>
+<body>
+  <%- include ('./parciales/navegar.ejs') %>
+
+  <h1><%= title %></h1>
+
+  <table class="actividad-table">
+    <thead>
+      <tr>
+        <th>Usuario</th>
+        <th>Última Actividad</th>
+        <th>Intentos Fallidos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% logs.forEach(log => { %>
+        <% if (log.user) { %>
+          <tr>
+            <td><%= log.user.username %> (<%= log.user.nombre %> <%= log.user.apellido %>)</td>
+            <td><%= log.lastActivity %></td>
+            <td><%= log.failedAttempts %></td>
+          </tr>
+        <% } %>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <%- include ('./parciales/footer.ejs') %>
+</body>
+</html>
